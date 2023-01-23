@@ -8,6 +8,7 @@ import TextToSpech from "./components/TextToSpech";
 import * as Speech from "expo-speech";
 
 const Stack = createNativeStackNavigator();
+// Todo : Tensoflow integegeration pending
 
 function App() {
   return (
