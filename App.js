@@ -4,6 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "./components/HomeScreen";
 import CameraScreen from "./components/CameraScreen";
+import TensorflowDetection from "./components/tensorflowJs/TensorflowDetection";
 import TextToSpech from "./components/TextToSpech";
 import * as Speech from "expo-speech";
 
@@ -16,6 +17,7 @@ function App() {
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Camera" component={CameraScreen} />
         <Stack.Screen name="tts" component={TextToSpech} />
+        <Stack.Screen name="tensorflow" component={TensorflowDetection} />
       </Stack.Navigator>
     </NavigationContainer>
   );

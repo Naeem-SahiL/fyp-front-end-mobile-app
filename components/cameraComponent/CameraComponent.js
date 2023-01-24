@@ -15,6 +15,7 @@ import styles from "./Styles";
 import LoadingPermission from "./LoadingPermission";
 import MessageWithAction from "./MessageWithAction";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import axios from "axios";
 
 function CameraComponent({ setPhoto, setHide }) {
   const [type, setType] = useState(CameraType.back);
@@ -29,6 +30,13 @@ function CameraComponent({ setPhoto, setHide }) {
       setHasMediaLibraryPermission(mediaLibraryPermission.status === "granted");
     })();
   }, []);
+
+  // useEffect(() => {
+  //   // testRobo(picture);
+  //   if (picture != null) {
+  //     console.log(picture.base64);
+  //   }
+  // }, [picture]);
 
   let cameraRef = useRef(null);
 
@@ -61,10 +69,13 @@ function CameraComponent({ setPhoto, setHide }) {
 
     if (cameraRef) {
       let newPhoto = await cameraRef.current.takePictureAsync(options);
-      setPicture(newPhoto.uri);
+      // console.log("photpo->", newPhoto);
+      // console.log("base 64->", isBase64(newPhoto)); // returns false
+      setPicture(newPhoto);
       setPhoto(newPhoto.uri);
       setHide(true);
-      sendImage(newPhoto.uri);
+      // sendImage(newPhoto.uri);
+      testRobo(newPhoto);
       // const asset = await MediaLibrary.createAssetAsync(newPhoto.uri);
       // console.log("asset", asset);
     }
@@ -75,12 +86,12 @@ function CameraComponent({ setPhoto, setHide }) {
       <Camera style={styles.camera} type={type} ref={cameraRef}>
         <View style={localStyles.container}>
           <View style={localStyles.topbarContainer}>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={localStyles.appButtonContainer}
               onPress={asyncTakePicture}
             >
               <Ionicons name="camera-flip-outline" size={32} color="green" />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
           <View style={localStyles.btnContainer}>
             <TouchableOpacity
@@ -137,7 +148,7 @@ const sendImage = async (picture) => {
       },
     };
     let response = await fetch(
-      "http://e62b-34-143-152-53.ngrok.io/predict",
+      "http://25f0-34-87-10-114.ngrok.io/predict",
       options
     );
     let responseJson = await response.json();
@@ -146,4 +157,26 @@ const sendImage = async (picture) => {
   } catch (error) {
     console.error(error);
   }
+};
+
+const testRobo = (image) => {
+  console.log("testRobo triggred");
+  axios({
+    method: "POST",
+    url: "https://detect.roboflow.com/fyp-videos-annotations/10",
+    params: {
+      api_key: "qu0G59VlYOUBlvY0Lon7",
+      // image: image.base64,
+    },
+    data: image.base64,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  })
+    .then(function (response) {
+      console.log("robo res->", response.data);
+    })
+    .catch(function (error) {
+      console.log(error.message);
+    });
 };

@@ -46,6 +46,12 @@ function HomeScreen({ navigation }) {
         >
           <Text style={styles.appButtonText}>Test TTS</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("tensorflow")}
+          style={styles.appButtonContainer}
+        >
+          <Text style={styles.appButtonText}>TensorflowDetection</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

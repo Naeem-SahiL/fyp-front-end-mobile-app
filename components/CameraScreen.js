@@ -18,7 +18,7 @@ function CameraScreen({ navigation }) {
   useEffect(() => {
     console.log("photo changed ->", photo);
     if (photo != null) {
-      detect();
+      // detect();
     }
   }, [photo]);
 
