@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import CameraComponent from "./cameraComponent/CameraComponent";
 import GlobalStyles from "./GlobalStyles";
 import { styles } from "./cameraComponent/Styles";
+import VisionCamera from "./cameraComponent/VisionCamera";
 function CameraScreen({ navigation }) {
   const [photo, setPhoto] = useState();
   const [hide, setHide] = useState(false);
@@ -16,7 +17,7 @@ function CameraScreen({ navigation }) {
     setHide(false);
   };
   useEffect(() => {
-    console.log("photo changed ->", photo);
+    // console.log("photo changed ->", photo);
     if (photo != null) {
       // detect();
     }
@@ -25,8 +26,9 @@ function CameraScreen({ navigation }) {
   return (
     <View style={GlobalStyles.container}>
       <View style={styles1.cameraSpace}>
-        {!hide && <CameraComponent setPhoto={setPhoto} setHide={setHide} />}
-        {photo && <Image source={{ uri: photo }} style={styles.picture} />}
+        {/* {!hide && <CameraComponent setPhoto={setPhoto} setHide={setHide} />}
+        {photo && <Image source={{ uri: photo }} style={styles.picture} />} */}
+        <VisionCamera />
       </View>
       <View style={styles1.controlSpace}>
         <TouchableOpacity

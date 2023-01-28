@@ -14,6 +14,7 @@ import * as MediaLibrary from "expo-media-library";
 import { styles, cameraComponentStyles } from "./Styles";
 import LoadingPermission from "./LoadingPermission";
 import MessageWithAction from "./MessageWithAction";
+import { Permissions } from "expo";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import axios from "axios";
 // import { speak } from "../tts/useSpeech";
@@ -21,7 +22,7 @@ import useAPI from "./useAPI";
 
 function CameraComponent({ setPhoto, setHide }) {
   const [type, setType] = useState(CameraType.back);
-  const [picture, setPicture] = useState();
+  const [videoStream, setVideoStream] = useState();
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const { sendImage } = useAPI();
@@ -31,6 +32,7 @@ function CameraComponent({ setPhoto, setHide }) {
     (async () => {
       const mediaLibraryPermission =
         await MediaLibrary.requestPermissionsAsync();
+      // await Camera.requestPermissionsAsync();
       setHasMediaLibraryPermission(mediaLibraryPermission.status === "granted");
     })();
   }, []);
@@ -45,7 +47,6 @@ function CameraComponent({ setPhoto, setHide }) {
   let cameraRef = useRef(null);
 
   if (!permission) {
-    // Camera permissions are still loading
     return <LoadingPermission />;
   }
 
@@ -75,14 +76,33 @@ function CameraComponent({ setPhoto, setHide }) {
       let newPhoto = await cameraRef.current.takePictureAsync(options);
       setPhoto(newPhoto.uri);
       setHide(true);
+      console.log("taking picture...");
+      // setTimeout(asyncTakePicture, 2000);
       console.log("sending image...");
-      sendImage(newPhoto.uri);
+      // sendImage(newPhoto.uri);
     }
+  };
+  const handleCameraReady = async () => {
+    console.log("Camera is ready");
+    startRecording = async () => {
+      if (cameraRef.current) {
+        const video = await cameraRef.current.recordAsync();
+        setVideoStream(video.uri);
+        console.log("uri->", video.uri);
+        // Send the video stream to the server
+      }
+    };
+    await startRecording();
   };
 
   return (
     <View style={styles.container}>
-      <Camera style={styles.camera} type={type} ref={cameraRef}>
+      <Camera
+        style={styles.camera}
+        type={type}
+        ref={cameraRef}
+        // onCameraReady={handleCameraReady}
+      >
         <View style={cameraComponentStyles.container}>
           <View style={cameraComponentStyles.topbarContainer}>
             {/* <TouchableOpacity
