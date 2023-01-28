@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import CameraComponent from "./cameraComponent/CameraComponent";
 import GlobalStyles from "./GlobalStyles";
-import styles from "./cameraComponent/Styles";
+import { styles } from "./cameraComponent/Styles";
 function CameraScreen({ navigation }) {
   const [photo, setPhoto] = useState();
   const [hide, setHide] = useState(false);

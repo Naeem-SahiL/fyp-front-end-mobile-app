@@ -50,7 +50,7 @@ function HomeScreen({ navigation }) {
           onPress={() => navigation.navigate("tensorflow")}
           style={styles.appButtonContainer}
         >
-          <Text style={styles.appButtonText}>TensorflowDetection</Text>
+          <Text style={styles.appButtonText}>Tensorflow Detection</Text>
         </TouchableOpacity>
       </View>
     </View>

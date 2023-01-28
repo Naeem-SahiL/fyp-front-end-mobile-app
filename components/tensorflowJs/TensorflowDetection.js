@@ -13,14 +13,17 @@ import { Camera } from "expo-camera";
 import * as cocossd from "@tensorflow-models/coco-ssd";
 import * as tf from "@tensorflow/tfjs";
 import Canvas from "react-native-canvas";
+import * as Speech from "expo-speech";
 
 const TensorCamera = cameraWithTensors(Camera);
 LogBox.ignoreAllLogs(true);
 function TensorflowDetection() {
   const [model, setModel] = useState();
+  const [classes, setClasses] = useState("Nope!!");
   const { width, height } = Dimensions.get("window");
   const context = useRef();
   const canvas = useRef();
+  const detcClass = "";
 
   const cameraTexture =
     Platform.OS === "ios"
@@ -33,10 +36,18 @@ function TensorflowDetection() {
           width: 1600,
         };
 
+  useEffect(() => {
+    console.log("new class -> ", classes);
+    Speech.stop();
+    Speech.speak("There is ", classes);
+  }, [classes]);
+
   const handleCameraStream = (images, updatePreview, gl) => {
     const loop = async () => {
       const nextImageTensor = images.next().value;
       if (!model || !nextImageTensor) {
+        Speech.stop();
+        Speech.speak("No model or image tensor");
         throw new Error("No model or image tensor");
       }
 
@@ -44,6 +55,12 @@ function TensorflowDetection() {
         .detect(nextImageTensor)
         .then((predictions) => {
           console.log("Predictions -> ", predictions);
+          console.log("Predictions[0] -> ", predictions[0].class);
+          // if (predictions[0].class != detcClass) {
+          //   detcClass = predictions[0].class;
+          //   setClasses(predictions[0].class);
+          // }
+          setClasses(predictions[0].class);
           drawRectangles(predictions, nextImageTensor);
         })
         .catch((err) => {
@@ -138,11 +155,22 @@ function TensorflowDetection() {
   useEffect(() => {
     (async () => {
       const status = await Camera.requestCameraPermissionsAsync();
+      Speech.stop();
+      Speech.speak("Loading tensorflow");
       console.log("[/] waiting for tf ready...");
       await tf.ready();
 
+      Speech.stop();
+      Speech.speak("Tensorflow loaded .Setting webGl backend");
+      // await tf.setBackend("webgl2");
+
+      Speech.stop();
+      Speech.speak("WebGl Set.Loading model");
       console.log("[+] tf is ready.\n[/] loading model");
       const model = await cocossd.load();
+
+      Speech.stop();
+      Speech.speak("Model loaded.");
       console.log("[+] model loaded.");
       setModel(model);
     })();
@@ -187,6 +215,7 @@ function TensorflowDetection() {
         onReady={handleCameraStream}
         useCustomShadersToResize={false}
       />
+      <Text style={styles.pred}>{classes}</Text>
       <Canvas style={styles.canvas} ref={canvas} />
     </View>
   );
@@ -212,5 +241,14 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     zIndex: 1,
+  },
+  pred: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    zIndex: 100,
+    color: "white",
+    fontSize: 20,
+    backgroundColor: "black",
   },
 });

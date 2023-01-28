@@ -18,7 +18,8 @@ import {
 
 // import Tts Text to Speech
 // import Tts from "react-native-tts";
-import * as Speech from "expo-speech";
+// import * as Speech from "expo-speech";
+import useSpeech from "./tts/useSpeech";
 
 function TextToSpech() {
   const [voices, setVoices] = useState([]);
@@ -27,9 +28,7 @@ function TextToSpech() {
   const [speechRate, setSpeechRate] = useState(0.5);
   const [speechPitch, setSpeechPitch] = useState(1);
   const [text, setText] = useState("Enter Text like Hello About React");
-  const speek = () => {
-    Speech.speak("Let me help you. Ask me anything...");
-  };
+  const { speak } = useSpeech();
   //   useEffect(() => {
   //     Speech.speak("Welcome to React Native Text to Speech Example");
   //   }, []);
@@ -40,7 +39,7 @@ function TextToSpech() {
         <Text>TextToSpech</Text>
       </View>
       <TouchableOpacity
-        onPress={() => speek()}
+        onPress={() => speak("Hello About React Native")}
         style={GlobalStyles.appButtonContainer}
       >
         <Text style={GlobalStyles.appButtonText}>Try it</Text>

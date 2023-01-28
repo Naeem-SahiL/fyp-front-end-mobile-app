@@ -42,4 +42,25 @@ const styles = StyleSheet.create({
   },
 });
 
-export default styles;
+const cameraComponentStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "space-between",
+  },
+  topbarContainer: {
+    alignItems: "center",
+    backgroundColor: "lightgreen",
+  },
+  btnContainer: {
+    alignItems: "center",
+  },
+  appButtonContainer: {
+    elevation: 8,
+    backgroundColor: "lightgray",
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    marginVertical: 10,
+  },
+});
+export { styles, cameraComponentStyles };
