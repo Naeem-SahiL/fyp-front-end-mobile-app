@@ -58,6 +58,12 @@ function HomeScreen({ navigation }) {
         >
           <Text style={styles.appButtonText}>Tensorflow Detection</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("tfliteCamera")}
+          style={styles.appButtonContainer}
+        >
+          <Text style={styles.appButtonText}>TF Lite Camera</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

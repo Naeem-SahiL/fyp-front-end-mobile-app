@@ -23,6 +23,7 @@
     "axios": "^1.2.3",
     "expo": "^47.0.13",
     "expo-camera": "^13.1.0",
+    "expo-file-system": "^15.1.1",
     "expo-gl": "^12.0.1",
     "expo-gl-cpp": "^11.4.0",
     "expo-media-library": "~15.0.0",
@@ -40,7 +41,8 @@
     "react-native-safe-area-context": "4.4.1",
     "react-native-screens": "~3.18.0",
     "react-native-tts": "^4.1.0",
-    "react-native-webview": "^11.26.0"
+    "react-native-webview": "^11.26.0",
+    "tflite-react-native": "^0.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

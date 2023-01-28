@@ -7,6 +7,7 @@ import CameraScreen from "./components/CameraScreen";
 import TensorflowDetection from "./components/tensorflowJs/TensorflowDetection";
 import TextToSpech from "./components/TextToSpech";
 import * as Speech from "expo-speech";
+import TfLiteCamera from "./components/tflite/TfLiteCamera";
 
 const Stack = createNativeStackNavigator();
 
@@ -18,6 +19,7 @@ function App() {
         <Stack.Screen name="Camera" component={CameraScreen} />
         <Stack.Screen name="tts" component={TextToSpech} />
         <Stack.Screen name="tensorflow" component={TensorflowDetection} />
+        <Stack.Screen name="tfliteCamera" component={TfLiteCamera} />
       </Stack.Navigator>
     </NavigationContainer>
   );
